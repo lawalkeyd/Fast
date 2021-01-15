@@ -15,6 +15,9 @@ class Userss(AbstractUser):
     is_admin = models.BooleanField(default=False)
     main_currency = models.CharField(choices=currency_choices, max_length=3, blank=True, null=True)
 
+    def __str__(self):
+        return self.username
+
 class ClientProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     location = models.CharField(max_length=100)

@@ -5,7 +5,7 @@ from users.models import currency_choices, Userss
 class Wallet(models.Model):
     user = models.ForeignKey(Userss, on_delete=models.CASCADE)
     currency = models.CharField(choices=currency_choices,max_length=3)
-    amount = models.FloatField()
+    amount = models.FloatField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
