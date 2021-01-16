@@ -5,6 +5,7 @@ from restless.exceptions import Unauthorized, BadRequest
 from users.models import Userss
 from .models import Wallet
 from .forms import FundsForm
+import requests
 
 class ClientFund(DjangoResource):
     preparer = FieldsPreparer(fields={
@@ -50,7 +51,7 @@ class FundWallet(DjangoResource):
             if currency == self.user.main_currency:
                 wallet, created = Wallet.object.get_or_create(
                     currency=currency,
-                    user = request.user,
+                    user = self.user,
                 )
                 wallet.amount += amount
                 wallet.save()
