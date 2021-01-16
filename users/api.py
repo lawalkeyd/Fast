@@ -42,6 +42,8 @@ class LoginUser(DjangoResource):
 
     def create(self):
         form = UserForm(self.data)
+        username=form.cleaned_data['username'],
+        password=form.cleaned_data['password'],        
         if not form.is_valid():
             raise BadRequest('Something is wrong.')
         user = authenticate(username=username, password=password)

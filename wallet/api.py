@@ -39,7 +39,7 @@ class FundWallet(DjangoResource):
     })
 
     def is_authenticated(self):
-        return self.request.user.is_authenticated and (self.user.is_noob or self.user.is_elite)
+        return self.request.user.is_authenticated and (self.request.user.is_noob or self.request.user.is_elite)
       
     def create(self):
         form = FundsForm(self.data)
@@ -47,22 +47,22 @@ class FundWallet(DjangoResource):
             raise BadRequest('Something is wrong.')
         amount=form.cleaned_data['amount']
         currency=form.cleaned_data['currency']
-        if self.user.is_noob:
-            if currency == self.user.main_currency:
+        if self.request.user.is_noob:
+            if currency == self.request.user.main_currency:
                 wallet, created = Wallet.object.get_or_create(
                     currency=currency,
-                    user = self.user,
+                    user = self.request.user,
                 )
                 wallet.amount += amount
                 wallet.save()
                 return wallet
-            elif currency != self.user.main_currency:
+            elif currency != self.request.user.main_currency:
                 r = requests.get('https://data.fixer.io/api/latest/?{{API_KEY}}&{{self.user.main_currency}}', params=request.GET)
                 if r.success == True:
                     rate = r.rates[currency]
                     wallet,created = Wallet.object.get_or_create(
                         currency=currency,
-                        user = request.user,
+                        user = self.request.user,
                     )
                     wallet.amount += amount * rate
                     wallet.save()
@@ -71,10 +71,10 @@ class FundWallet(DjangoResource):
                     raise BadRequest('Something is wrong.')
             else:
                 raise BadRequest('Something is wrong.')      
-        if self.user.is_elite:
+        if self.request.user.is_elite:
             wallet, created = Wallet.object.get_or_create(
                 currency=currency,
-                user = request.user,
+                user = self.request.user,
             )
             wallet.amount += amount
             wallet.save()
@@ -88,7 +88,7 @@ class WithdrawWallet(DjangoResource):
     })
 
     def is_authenticated(self):
-        return self.request.user.is_authenticated and (self.user.is_noob or self.user.is_elite)
+        return self.request.user.is_authenticated and (self.request.user.is_noob or self.request.user.is_elite)
       
     def create(self):
         form = FundsForm(self.data)
@@ -96,24 +96,24 @@ class WithdrawWallet(DjangoResource):
             raise BadRequest('Something is wrong.')
         amount=form.cleaned_data['amount']
         currency=form.cleaned_data['currency']
-        if self.user.is_noob:
+        if self.request.user.is_noob:
             if currency == self.user.main_currency:
                 wallet, created = Wallet.object.get(
                     currency=currency,
-                    user = request.user,
+                    user = self.request.user,
                 )
                 if amount > wallet.amount:
                     raise BadRequest('You do not have sufficient funds')
                 wallet.amount -= amount
                 wallet.save()
                 return wallet
-            elif currency != self.user.main_currency:
-                r = requests.get('https://data.fixer.io/api/latest/?{{API_KEY}}&{{self.user.main_currency}}', params=request.GET)
+            elif currency != self.request.user.main_currency:
+                r = requests.get('https://data.fixer.io/api/latest/?{{API_KEY}}&{{self.user.main_currency}}')
                 if r.success == True:
                     rate = r.rates[currency]
                     wallet,created = Wallet.object.get_or_create(
                         currency=currency,
-                        user = request.user,
+                        user = self.request.user,
                     )
                     new_amount = amount * rate
                     if wallet.amount < new_amount:
@@ -125,21 +125,21 @@ class WithdrawWallet(DjangoResource):
                     raise BadRequest('Something is wrong.')
             else:
                 raise BadRequest('Something is wrong.')      
-        if self.user.is_elite:
+        if self.request.user.is_elite:
             try:
                 wallet = Wallet.object.get(
                     currency=currency,
-                    user = request.user,
+                    user = self.request.user,
                 )
             except:
-                wallet = Wallet.objects.get(user=request.user, currency=request.user.main_currency)
-                if currency != self.user.main_currency:
-                    r = requests.get('https://data.fixer.io/api/latest/?{{API_KEY}}&{{self.user.main_currency}}', params=request.GET)
+                wallet = Wallet.objects.get(user=self.request.user, currency=self.request.user.main_currency)
+                if currency != self.request.user.main_currency:
+                    r = requests.get('https://data.fixer.io/api/latest/?{{API_KEY}}&{{self.user.main_currency}}')
                     if r.success == True:
                         rate = r.rates[currency]
                         wallet,created = Wallet.object.get_or_create(
                             currency=currency,
-                            user = request.user,
+                            user = self.request.user,
                         )
                         new_amount = amount * rate
                         if wallet.amount < new_amount:
