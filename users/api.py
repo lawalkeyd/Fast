@@ -1,6 +1,7 @@
 from restless.dj import DjangoResource
 from restless.preparers import FieldsPreparer
 from restless.exceptions import Unauthorized, BadRequest 
+from django.contrib.auth import authenticate, login
 
 from .models import Userss
 from .forms import UserForm
@@ -9,10 +10,10 @@ from wallet.models import Wallet
 class UserResource(DjangoResource):
     preparer = FieldsPreparer(fields={
         'id': 'id',
-        'client_username': 'username',
+        'username': 'username',
         'is_noob': 'is_noob',
         'is_elite': 'is_elite',
-        'is_admin': 'admin',
+        'is_superuser': 'is_superuser',
         'main_currency': 'main_currency',
     })
       
@@ -30,15 +31,41 @@ class UserResource(DjangoResource):
         Wallet.objects.create(user=user, currency=form.cleaned_data['main_currency'], amount=0.0)
         return user
     
+class LoginUser(DjangoResource):
+    preparer = FieldsPreparer(fields={
+        'id': 'id',
+        'username': 'username',
+        'is_superuser': 'is_superuser',
+        'is_noob': 'is_noob',
+        'is_elite': 'is_elite',        
+    })
+
+    def create(self):
+        form = UserForm(self.data)
+        if not form.is_valid():
+            raise BadRequest('Something is wrong.')
+        user = authenticate(username=username, password=password)
+        if user:
+            login(user)
+        return user        
+
+
+
 
 class AdminResource(DjangoResource):
     preparer = FieldsPreparer(fields={
         'id': 'id',
-        'admin_username': 'username',
-        'is_admin': 'is_admin',
+        'username': 'username',
+        'is_superuser': 'is_superuser',
         'is_noob': 'is_noob',
         'is_elite': 'is_elite',        
     })
+
+    def is_authenticated(self):
+        '''
+        User is authenticated and is an admin user
+        '''
+        return self.request.user.is_authenticated and self.request.user.is_superuser
 
     def list(self):
         return Userss.objects.all()
@@ -57,7 +84,7 @@ class AdminResource(DjangoResource):
         return Userss.objects.create(
             username=form.cleaned_data['username'],
             password=form.cleaned_data['password'],
-            is_admin= True) 
+            is_superuser= True) 
     
     def update(self, pk):
         try:
@@ -74,13 +101,13 @@ class ClientResource(DjangoResource):
     preparer = FieldsPreparer(fields={
         'id': 'id',
         'client_username': 'username',
-        'is_admin': 'is_admin',
+        'is_superuser': 'is_superuser',
         'is_noob': 'is_noob',
         'is_elite': 'is_elite',        
     })
 
     def is_authenticated(self):
-        return self.user.is_authenticated and (self.user.is_noob or self.user.is_elite)
+        return self.request.user.is_authenticated and (self.request.user.is_noob or self.request.user.is_elite)
 
     def detail(self, pk):
         try:

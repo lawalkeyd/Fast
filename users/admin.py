@@ -7,11 +7,11 @@ from .models import Userss, ClientProfile
 
 
 class UserAdmin(BaseUserAdmin):
-    list_display = ('username', 'is_noob', 'is_elite', 'is_admin')
-    list_filter = ('is_noob', 'is_elite', 'is_admin')
+    list_display = ('username', 'is_noob', 'is_elite', 'is_superuser')
+    list_filter = ('is_noob', 'is_elite', 'is_superuser')
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Permissions', {'fields': ('is_noob', 'is_admin', 'is_elite')}),
+        ('Permissions', {'fields': ('is_noob', 'is_superuser', 'is_elite')}),
     )
 
     add_fieldsets = (

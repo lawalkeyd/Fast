@@ -9,12 +9,18 @@ from .forms import FundsForm
 class ClientFund(DjangoResource):
     preparer = FieldsPreparer(fields={
         'id': 'id',
-        'is_noob': 'is_noob',
-        'is_elite': 'is_elite', 
+        'currency': 'currency',
+        'client_username': 'user.username',
+        'current_amout': 'amount'
     })
 
+    #def is_authenticated(self):
+        #return self.request.user.is_authenticated()
+
     def list(self):
-        return Wallet.objects.filter(user=self.request.user)
+        if self.request.user.is_authenticated == False:
+            raise Unauthorized('You are not logged in')
+        return Wallet.objects.all()
 
     def detail(self, pk):
         try:

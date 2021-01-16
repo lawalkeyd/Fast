@@ -12,7 +12,7 @@ currency_choices=  [
 class Userss(AbstractUser):
     is_noob = models.BooleanField(default=False)
     is_elite = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
     main_currency = models.CharField(choices=currency_choices, max_length=3, blank=True, null=True)
 
     def __str__(self):

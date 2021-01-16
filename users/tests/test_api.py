@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
-from rest_framework import status
 from restless.exceptions import Unauthorized, BadRequest 
+from django.test import Client
 
 
 from .factories import UserssFactory
@@ -30,15 +30,16 @@ class NoobUserAPITestCase(TestCase):
 class AdminAPITestCase(TestCase):
       def setUp(self):
           self.user = UserssFactory()
-          self.user.is_admin = True
+          self.user.is_superuser = True
           self.user.save()
+          self.client = Client()
           self.client.login(username=self.user.username, password=self.user.password)
 
       def test_is_authenticated(self):
           self.assertEqual(self.user.is_authenticated, True)
 
-      def test_is_admin(self):
-          self.assertEqual(self.user.is_admin, True)              
+      def test_is_superuser(self):
+          self.assertEqual(self.user.is_superuser, True)              
 
       def test_get_list(self):
           """GET the list of Users"""
@@ -60,8 +61,8 @@ class ClientAPITestCase(TestCase):
       def test_is_authenticated(self):
           self.assertEqual(self.user.is_authenticated, True)
 
-      def test_is_admin(self):
-          self.assertEqual(self.user.is_admin, False)              
+      def test_is_superuser(self):
+          self.assertEqual(self.user.is_superuser, False)              
 
       def test_get_detail(self):
           """GET details for User."""
