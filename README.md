@@ -5,5 +5,8 @@
 2. Go To Project Directory `cd Fast`
 3. Run the docker-compose up command
 
+## API Documentaion
+`https://lawalkeyd.github.io/Fast/`
+
 
 ![coverage](https://gitlab.com/gitlab-org/gitlab/badges/master/coverage.svg?job=coverage)
