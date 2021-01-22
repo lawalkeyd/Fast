@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from users.views import CreateUser, LoginView
-from wallet.views import FundWallet, WithdrawWallet
+from users.views import CreateUser, LoginView, AdminUserView
+from wallet.views import FundWallet, WithdrawWallet, AdminWalletView, WalletListView, MyWalletList
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,4 +24,8 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('client/fund/', FundWallet.as_view(), name='client_fund'),
     path('client/withdraw/', WithdrawWallet.as_view(), name='client_withdraw'),
+    path('user/admin/', AdminUserView.as_view(), name='admin_user'),
+    path('wallet/admin/', AdminWalletView.as_view(), name='admin_wallet'),
+    path('wallet/list/', WalletListView.as_view(), name='wallet_list'),
+    path('client/list/', MyWalletList.as_view(), name='my_wallet_list'),
 ]

@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from .serializers import UserSerializier
 from django.contrib.auth import authenticate
 from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser
 
 
 class CreateUser(generics.CreateAPIView):
@@ -21,3 +22,7 @@ class LoginView(APIView):
             return Response({"token": user.auth_token.key})
         else:
             return Response({"error": "Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)
+
+class AdminUserView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAdminUser]
+    serializer_class = UserSerializier

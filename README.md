@@ -16,3 +16,5 @@ I made the repository public to be able to deploy my documentation to github pag
 
 
 ![coverage](https://gitlab.com/gitlab-org/gitlab/badges/master/coverage.svg?job=coverage)
+![Docker](https://github.com/lawalkeyd/Fast/workflows/Docker/badge.svg)
+![Docker](https://github.com/lawalkeyd/Fast/workflows/Docker/badge.svg)

@@ -30,6 +30,16 @@ class FundWallet(APIView):
             wallet.save()
             return Response({"user": user.id})
         
+class MyWalletList(generics.ListAPIView):
+    serializer_class = WalletSerializer
+    model = Wallet
+
+    def get_queryset(self):
+        user_id = self.kwargs['user_id']
+        queryset = self.model.objects.filter(user__id=user_id)
+        return queryset.order_by('-post_time')
+
+
 class WithdrawWallet(APIView):
     def post(self, request):
         if request.user.is_superuser:
@@ -49,4 +59,12 @@ class WithdrawWallet(APIView):
             wallet, created = Wallet.objects.get_or_create(user=user, currency=currency)
             wallet.amount -= float(amount)
             wallet.save()
-            return Response({"user": user.id})        
+            return Response({"user": user.id})  
+
+class WalletListView(generics.ListAPIView):
+    permission_classes = [IsAdminUser]
+    serializer_class = WalletSerializier 
+
+class AdminWalletView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAdminUser]
+    serializer_class = WalletSerializier                      
