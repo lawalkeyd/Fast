@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.test import Client
 
 
-from .factories import UserssFactory
+from users.tests.factories import UserssFactory
 
 
 class NoobUserAPITestCase(TestCase):

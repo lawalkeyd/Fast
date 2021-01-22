@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from ..models import Userss
+from users.models import Userss
 from .factories import UserssFactory
 
 
