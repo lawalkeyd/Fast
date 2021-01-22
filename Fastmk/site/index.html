@@ -80,49 +80,51 @@
 <h1 id="fast-api-documentation">Fast API Documentation</h1>
 <p>This is the API documentation for the Fast Django Application</p>
 <h2 id="overview">Overview</h2>
-<p>Fast’s API is a JSON-based API built using a lightweight API framework called Restless.</p>
+<p>Fast’s API is a JSON-based API built using the Djangorestframework.</p>
 <h2 id="creating-and-authenticating-users">Creating and Authenticating Users</h2>
 <h3 id="creating-users">Creating Users</h3>
 <p>Noob or Elite Users can be created using a post request to the <strong>register/</strong> url to create a client account. The data must be in Json format and should contain the username and password, is_noob and is_elite and main currency. The password must be a minimum of 8 and can contain characters and digits. The password must not be similar to the username. Is_noob and Is_elite determine the type of user and are boolean values</p>
 <p>Example:</p>
 <pre><code>{"username": "dannywalter", "password": "lily7543", "is_nooob": True, "is_elite": False}
 </code></pre>
-<p>Creating an Admin user only requires the username and password data to be posted to <strong>api/admin/</strong>. Only Superusers can create these accounts. Other users will receive a response Unauthorized with status code 401</p>
 <h3 id="login-users">Login Users</h3>
 <p>Users can login in by sending a POST request with the username and password to <strong>api/admin/</strong>.</p>
-<p>You will receive a response with a status code of 200 and user data in JSON format like this</p>
-<pre><code>{
-    'id': 'id',
+<pre><code>    {
     'username': 'username',
-    'is_superuser': 'is_superuser',
-    'is_noob': 'is_noob',
-    'is_elite': 'is_elite',
+    'password': 'james2234'
+    }
+</code></pre>
+<p>You will receive a response with a status code of 200 and the user token as data</p>
+<pre><code>{
+    'token': 'ft67y7ggngftf76666',
 }
 </code></pre>
 <h3 id="users-list">Users List</h3>
-<p>Superusers(Admin) users can receive a list of all users GET request to <strong>api/admin/</strong></p>
+<p>Superusers(Admin) users can receive a list of all users GET request to <strong>user/admin/</strong></p>
 <p>You will receive a response with a status code of 200 and user data in JSON format like this</p>
-<pre><code>{"objects": [{"id": 1, "username": "james", "is_superuser": false, "is_noob": true, "is_elite": false}, {"id": 2, "username": "admin", "is_superuser": true, "is_noob": false, "is_elite": false}]}
+<pre><code>{"objects": [{"id": 1, "username": "james", "is_superuser": false, "is_noob": true, "is_elite": false, "main_currency": "USD"}, {"id": 2, "username": "admin", "is_superuser": true, "is_noob": false, "is_elite": false}]}
 </code></pre>
 <h3 id="users-info">Users Info</h3>
-<p>Superusers(Admin) users can receive a specific users info by sending a GET request to <strong>api/admin/</strong> with the user's id as an argument</p>
+<p>Superusers(Admin) users can receive a specific users info by sending a GET request to <strong>user/admin/<id></strong> with the user's id as an argument</p>
 <p>You will receive a response with a status code of 200 and user data in JSON format like this</p>
-<pre><code>{"id": 1, "admin_username": "james", "is_admin": false, "is_noob": true, "is_elite": false}
+<pre><code>{"id": 1, "admin_username": "james", "is_admin": false, "is_noob": true, "is_elite": false, "main_currency": "USD"}
 </code></pre>
 <p>Users can receive their info by sending a  <code>GET</code> request with their id as an argument  like <code>/api/client/&lt;pk&gt;/</code></p>
 <h2 id="wallet">Wallet</h2>
 <h3 id="funding-and-withdrawing-wallets">Funding and Withdrawing Wallets</h3>
-<p>Clients can fund their wallets using a POST request to <code>api/wallet/fund/</code>. A response will be received like this:
+<p>Clients can fund their wallets using a POST request to <code>/client/fund/</code>. A response will be received with a status code of 200 like this:
     {
-        'id': '1',
+        'user': '1',
         'amount': '10000',
         'currency': 'USD', 
     }
 Noob Users can only fund accounts in their main currency. Funding in other currencies will be converted and updated. Elite Users can fund accounts in any of the following currencies.</p>
-<p>Withdrawing From Wallets is the same process but made to <code>api/wallet/withdraw/</code></p>
+<p>Withdrawing From Wallets is the same process but made to <code>client/withdraw/</code></p>
+<p>Users can view their wallets by sending a GET request to <code>client/list</code></p>
+<p>Admin can view all wallets by sending a GET request to <code>wallet/list/</code> and can update user wallets by sending requests to <code>wallet/admin/&lt;pk&gt;</code></p>
 <h3 id="view-wallets">View Wallets</h3>
-<p>Noob or Elite users can sending a <code>GET</code> request to <code>api/wallet/fund/</code> to view all their wallets. The response will look this way:</p>
-<pre><code>{"objects": [{"id": 1, "amount": 12000, "currency": "USD"}, {"id": 2, "amount": 1200, "currency": "CAD",}]}
+<p>Noob or Elite users can sending a <code>GET</code> request to <code>wallet/list/</code> to view all their wallets. The response will look this way:</p>
+<pre><code>{"objects": [{"user": 1, "amount": 12000, "currency": "USD"}, {"user": 2, "amount": 1200, "currency": "CAD",}]}
 </code></pre>
 <h2 id="errors">Errors</h2>
 <p>Regardless of the error type, the exception’s message will get serialized into the response under the "error" key. </p>
@@ -215,5 +217,5 @@ Noob Users can only fund accounts in their main currency. Funding in other curre
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2021-01-16 10:12:24.167528+00:00
+Build Date UTC : 2021-01-22 14:54:33.594981+00:00
 -->
