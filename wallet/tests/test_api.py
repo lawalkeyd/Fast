@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 
 from users.tests.factories import UserssFactory
-from .factories import WalletFactory
+from wallet.tests.factories import WalletFactory
 from wallet.models import Wallet
 
 

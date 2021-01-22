@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from users.tests.factories import UserssFactory
-from .factories import WalletFactory
+from wallet.tests.factories import WalletFactory
 
 
 class UserssTestCase(TestCase):
