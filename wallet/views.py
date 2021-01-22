@@ -44,7 +44,7 @@ class WithdrawWallet(APIView):
                 wallet.save()
                 return Response({"user": user.id})
             else:
-                r = requests.get('https://data.fixer.io/api/latest?access_key=' + settings.EMBEDLY_KEY + '&url=' + url)
+                r = requests.get('https://data.fixer.io/api/latest?access_key=' + settings.EMBEDLY_KEY)
         if user.is_elite:
             wallet, created = Wallet.objects.get_or_create(user=user, currency=currency)
             wallet.amount -= float(amount)
