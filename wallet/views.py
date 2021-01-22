@@ -4,8 +4,9 @@ from .models import Wallet
 from users.models import Userss
 from rest_framework.views import APIView
 import requests
-import settings
+from Fast import settings
 from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser
 
 
 class FundWallet(APIView):
@@ -63,8 +64,8 @@ class WithdrawWallet(APIView):
 
 class WalletListView(generics.ListAPIView):
     permission_classes = [IsAdminUser]
-    serializer_class = WalletSerializier 
+    serializer_class = WalletSerializer
 
 class AdminWalletView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAdminUser]
-    serializer_class = WalletSerializier                      
+    serializer_class = WalletSerializer                    
