@@ -1,6 +1,5 @@
 from django.test import TestCase
 from django.urls import reverse
-from restless.exceptions import Unauthorized, BadRequest 
 from django.test import Client
 
 
@@ -61,12 +60,13 @@ class ClientAPITestCase(TestCase):
       def test_is_authenticated(self):
           self.assertEqual(self.user.is_authenticated, True)
 
-      def test_is_superuser(self):
-          self.assertEqual(self.user.is_superuser, False)              
+      def test_is_logged_in(self):
+          self.client.post('login', {'username': self.user.username, 'password': self.user.password})
+          self.assertEqual(self.user.is_superuser, False)  
 
-      def test_get_detail(self):
-          """GET details for User."""
-          response = self.client.get(reverse('api_client_detail', kwargs={'pk': self.user.pk}))
-          self.assertEqual(response.status_code, 200)
+      def test_is_noob(self):
+          self.assertEqual(self.user.is_noob, True)                        
+
+
 
 
