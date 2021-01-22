@@ -14,6 +14,9 @@ docker exec -it container_id python manage.py createsuperuser
 ## Repository
 I made the repository public to be able to deploy my documentation to github pages.
 
+##Deployment
+The Fast app is deployed on heroku at http://fastdecapp.herokuapp.com/ 
+
 
 ![coverage](https://gitlab.com/gitlab-org/gitlab/badges/master/coverage.svg?job=coverage)
 ![Docker](https://github.com/lawalkeyd/Fast/workflows/Docker/badge.svg)
