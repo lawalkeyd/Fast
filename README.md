@@ -1,5 +1,5 @@
 # Project Name: Fast
-The name of the application is Fast and it was built using Django and a lightweight REST framework called restless. I initially used the django rest framework but opted for restless due to its simplicity in use
+The name of the application is Fast and it was built using Django and Django Rest Framework. 
 
 ## How To Setup 
 1. Clone This Project `git clone https://github.com/lawalkeyd/Fast`
