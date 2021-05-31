@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'wallet',
     'rest_framework',
     'rest_framework.authtoken',
+    'herokuapp'
 ]
 
 MIDDLEWARE = [
