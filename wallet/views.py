@@ -44,14 +44,14 @@ class MyWalletList(generics.ListAPIView):
 class WithdrawWallet(APIView):
     def post(self, request):
         if request.user.is_superuser:
-            return Response({"error": "You don't have the permission to do this"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({"error": "You don't have the permission to do this, Admins can't withdraw from wallets"}, status=status.HTTP_401_UNAUTHORIZED)
         user = request.user
         currency = request.data.get('currency')
         amount = request.data.get('amount')
         if user.is_noob:
             if user.main_currency == currency:
-                wallet, created = Wallet.objects.get_or_create(user=user, currency=currency)
-                wallet.amount +- float(amount)
+                wallet = Wallet.objects.get(user=user, currency=currency)
+                wallet.amount -= float(amount)
                 wallet.save()
                 return Response({"user": user.id})
             else:

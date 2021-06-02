@@ -15,3 +15,8 @@ class UserSerializier(serializers.ModelSerializer):
         model = Userss
         fields = ('username', 'password', 'is_noob', 'is_elite', 'is_superuser', 'main_currency')
         extra_kwargs = {'password': {'write_only': True}}
+
+class ViewUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Userss
+        fields = ('username', 'password', 'is_noob', 'is_elite', 'is_superuser', 'main_currency')       

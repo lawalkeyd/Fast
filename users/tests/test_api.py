@@ -23,12 +23,13 @@ class NoobUserAPITestCase(TestCase):
 
       def test_get_detail(self):
           """GET details for User."""
-          response = self.client.get(reverse('api_client_detail', kwargs={'pk': self.user.pk}))
-          self.assertEqual(response.status_code, 200)
+          response = self.client.get(reverse('admin_user', kwargs={'pk': 1}))
+          self.assertEqual(response.status_code, 401)
 
 class AdminAPITestCase(TestCase):
       def setUp(self):
           self.user = UserssFactory()
+          self.user.is_staff = True
           self.user.is_superuser = True
           self.user.save()
           self.client = Client()
@@ -42,13 +43,13 @@ class AdminAPITestCase(TestCase):
 
       def test_get_list(self):
           """GET the list of Users"""
-          response = self.client.get(reverse('api_user_list'))
+          response = self.client.get(reverse('admin_user'))
           self.assertEqual(response.status_code, 200)
 
-      def test_get_detail(self):
-          """GET details for User."""
-          response = self.client.get(reverse('api_admin_detail', kwargs={'pk': 1}))
-          self.assertEqual(response.status_code, 200)
+    #   def test_get_detail(self):
+    #       """GET details for User."""
+    #       response = self.client.get(reverse('admin_wallet', kwargs={'pk': 1}))
+    #       self.assertEqual(response.status_code, 200)
 
 class ClientAPITestCase(TestCase):
       def setUp(self):
@@ -56,7 +57,7 @@ class ClientAPITestCase(TestCase):
           self.user.is_noob = True
           self.user.save()
           self.client.login(username=self.user.username, password=self.user.password)
-
+                    
       def test_is_authenticated(self):
           self.assertEqual(self.user.is_authenticated, True)
 

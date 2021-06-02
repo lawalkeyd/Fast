@@ -27,7 +27,7 @@ SECRET_KEY = 'uwv#uta9-42tz!12-x10uv9q+flp4##4oaye133i1+^p%1cns3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['fastdecapp.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -144,11 +144,9 @@ STATIC_URL = '/static/'
  #   os.path.join(BASE_DIR, 'accounts/static'),
 #)
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-prod_db  =  dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(prod_db)

@@ -25,6 +25,7 @@ urlpatterns = [
     path('client/fund/', FundWallet.as_view(), name='client_fund'),
     path('client/withdraw/', WithdrawWallet.as_view(), name='client_withdraw'),
     path('user/admin/', AdminUserView.as_view(), name='admin_user'),
+    path('user/admin/<int:pk>', AdminUserView.as_view(), name='admin_user'),
     path('wallet/admin/', AdminWalletView.as_view(), name='admin_wallet'),
     path('wallet/list/', WalletListView.as_view(), name='wallet_list'),
     path('client/list/', MyWalletList.as_view(), name='my_wallet_list'),
