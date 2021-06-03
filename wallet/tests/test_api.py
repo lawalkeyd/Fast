@@ -35,7 +35,7 @@ class NoobWalletAPITestCase(TestCase):
 
       def test_wallet_detail(self):
           """GET details for User's wallet."""
-          response = self.client.get(reverse('api_wallet_detail', kwargs={'pk': self.wallet.pk}))
+          response = self.client.get(reverse('my_wallet_list', kwargs={'pk': self.wallet.pk}))
           self.assertEqual(response.status_code, 200)
 
       def test_fund_wallet(self):

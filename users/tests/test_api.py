@@ -18,8 +18,8 @@ class NoobUserAPITestCase(TestCase):
       def test_get_list(self):
           """GET the list of Users"""
 
-          response = self.client.get(reverse('api_user_list'))
-          self.assertEqual(response.status_code, 200)
+          response = self.client.get(reverse('admin_user'))
+          self.assertEqual(response.status_code, 401)
 
       def test_get_detail(self):
           """GET details for User."""

@@ -36,7 +36,7 @@ class MyWalletList(generics.ListAPIView):
     model = Wallet
 
     def get_queryset(self):
-        user_id = self.kwargs['user_id']
+        user_id = self.kwargs['pk']
         queryset = self.model.objects.filter(user__id=user_id)
         return queryset.order_by('-post_time')
 

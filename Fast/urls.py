@@ -29,4 +29,5 @@ urlpatterns = [
     path('wallet/admin/', AdminWalletView.as_view(), name='admin_wallet'),
     path('wallet/list/', WalletListView.as_view(), name='wallet_list'),
     path('client/list/', MyWalletList.as_view(), name='my_wallet_list'),
+    path('client/list/<int:pk>', MyWalletList.as_view(), name='my_wallet_list'),
 ]
